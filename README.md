@@ -1,7 +1,8 @@
 # HDB Resale Price Analysis (2012-2024 Q3)
 ![Screenshot 2024-08-01 123651](https://github.com/user-attachments/assets/35a883de-b85a-46b2-ae36-04833e2d9330)
 
-## HDB Resale Analysis in PowerBI  [DashBoard](https://app.powerbi.com/groups/me/reports/bd97f543-142a-4314-9cc3-99aa63b8eaf5/d1284b876aaa72599b39?experience=power-bi&pbi_source=storytelling_addin)
+## HDB Resale Analysis in PowerBI  
+# [DashBoard](https://app.powerbi.com/groups/me/reports/bd97f543-142a-4314-9cc3-99aa63b8eaf5/d1284b876aaa72599b39?experience=power-bi&pbi_source=storytelling_addin)
 ### The Project Goal
 ____
 This project explores the trends and factors influencing HDB (Housing Development Board) resale prices in Singapore. By analyzing historical data, we'll uncover insights to help homebuyers and investors make informed decisions in the HDB resale market.
@@ -28,4 +29,55 @@ Total 5 Data Sets:
 The HDB resale price data and HDB Resale Price Index was downloaded from [Data.gov.sg](https://beta.data.gov.sg/datasets?agencies=Housing+and+Development+Board+%28HDB%29&resultId=d_60a6c3d88483cf63d2063c93771a6aeb),<br> 
 Python function that uses [Onemap api](https://www.onemap.gov.sg/apidocs/apidocs) to get the latitude and longitude data of the flats based on address.<br> 
 The Script is [here](https://github.com/PRABHAEZHIL/HDB_Resale_Analysis/blob/main/GeoCapstone%20(1).ipynb)
+
+### Data Cleaning
+HDB Data Set:<br>
+	1. Created remaining lease year by Custom Column `([lease_commence_Date]+99)-[Year]`<br>
+		    Year Column created by Column by Example of month Column<br>
+	2. Created Address Column by Concatenating blk and street_name column 
+		     `Address = [block] & “  “& [street_name]`<br>
+       
+HDB Resale Price Index:<br>
+Created Date column from year-quater<br>
+  	1. Extracted Year by using Column by Split <br>
+  	2. Created Date Column by formula.<br>
+           `Date= Date.EndOfQuarter(#date(Number.FromText([Year])),`<br>
+           `if Text.End([Quater],1)='1' then 1 else`<br>
+           `if Text.End([Quater],1)='2' then 4 else`<br>
+           `if Text.End([Quater],1)='3' then 7 else`<br>
+           `10,1)`<br>
+
+Flat Amenities:<br>
+	To make relationship between Flat_Amenities table and hdb_resale  table created address column in hdb_resale_date, Merged two table using RIGHT_OUTER_JOIN.
+
+### Data Loading
+Date Table is created by using DAX `Date = CALENDAR(DATE(2012,1,1),DATE(2024,12,31))`<br>
+
+25 Measures are created. Few Example as follows <br>
+  1. Getting TopRegion with highest  in Transaction<br>
+ 
+  `  VAR TopTown =
+      CALCULATETABLE(
+        TOPN(1, 
+            SUMMARIZE(ResaleFlatPrice_clean, ResaleFlatPrice_clean[town], "TotalTransaction", COUNT(ResaleFlatPrice_clean[resale_price])),
+            [TotalTransaction], 
+            DESC
+        )
+    )
+RETURN
+    MAXX(TopTown,  ResaleFlatPrice_clean[town])`<br>
+    
+    2. Getting TowTown with highest in Resale Price Index<br>
+    
+    ` TopTownRPI = 
+VAR TopTown =
+    CALCULATETABLE(
+        TOPN(1, 
+            SUMMARIZE(ResaleFlatPrice_clean, ResaleFlatPrice_clean[town], "TotalTransaction", SUM(HDBResalePriceIndex[index])),
+            [TotalTransaction], 
+            DESC
+        )
+    )
+RETURN
+    MAXX(TopTown,  ResaleFlatPrice_clean[town])`
 
