@@ -19,8 +19,13 @@ The 8 pages of Power BI project and their functionality are as follows:
   8. Multivariate clustering analysis performed using machine learning techniques in Power BI.
 
 ### Data Extraction
-5 Data Sets Used HDB Resale DataSet 2017 onwards, HDB Resale Data 2012-2018, RegionSG, flat amenities, HDB Resale Price Index.
-The HDB resale price data and HDB Resale Price Index was downloaded from [Data.gov.sg](https://beta.data.gov.sg/datasets?agencies=Housing+and+Development+Board+%28HDB%29&resultId=d_60a6c3d88483cf63d2063c93771a6aeb), 
-To retrieve the latitude and longitude data of the flats based on address the [Onemap api](https://www.onemap.gov.sg/apidocs/apidocs).\ 
-The Script is [here](GeoCapstone (1).ipynb)
+Total 5 Data Sets:
+    1. HDB Resale DataSet 2017 onwards, 
+    2. HDB Resale Data 2012-2018,
+    3. RegionSG, 
+    4. flat amenities, 
+    5. HDB Resale Price Index.
+The HDB resale price data and HDB Resale Price Index was downloaded from [Data.gov.sg](https://beta.data.gov.sg/datasets?agencies=Housing+and+Development+Board+%28HDB%29&resultId=d_60a6c3d88483cf63d2063c93771a6aeb),<br> 
+Python function that uses [Onemap api](https://www.onemap.gov.sg/apidocs/apidocs) to get the latitude and longitude data of the flats based on address.<br> 
+The Script is [here](https://github.com/PRABHAEZHIL/HDB_Resale_Analysis/blob/main/GeoCapstone%20(1).ipynb)
 
