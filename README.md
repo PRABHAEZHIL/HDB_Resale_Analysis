@@ -54,7 +54,7 @@ Flat Amenities:<br>
 Date Table is created by using DAX `Date = CALENDAR(DATE(2012,1,1),DATE(2024,12,31))`<br>
 
 25 Measures are created. Few Example as follows <br>
-  1. Getting TopRegion with highest  in Transaction<br>
+  1. Getting TopRegion with the highest  in Transaction<br>
  
   `  VAR TopTown =
       CALCULATETABLE(
@@ -67,17 +67,29 @@ Date Table is created by using DAX `Date = CALENDAR(DATE(2012,1,1),DATE(2024,12,
 RETURN
     MAXX(TopTown,  ResaleFlatPrice_clean[town])`<br>
     
-    2. Getting TowTown with highest in Resale Price Index<br>
+    2. Getting TowTown with the highest Resale Price Index<br>
     
     ` TopTownRPI = 
-VAR TopTown =
-    CALCULATETABLE(
-        TOPN(1, 
-            SUMMARIZE(ResaleFlatPrice_clean, ResaleFlatPrice_clean[town], "TotalTransaction", SUM(HDBResalePriceIndex[index])),
-            [TotalTransaction], 
-            DESC
-        )
-    )
-RETURN
-    MAXX(TopTown,  ResaleFlatPrice_clean[town])`
+	VAR TopTown =
+ 	   CALCULATETABLE(
+   	     TOPN(1, 
+    	        SUMMARIZE(ResaleFlatPrice_clean, ResaleFlatPrice_clean[town], "TotalTransaction", SUM(HDBResalePriceIndex[index])),
+    	        [TotalTransaction], 
+     	       DESC
+     	   )
+   	 )
+	RETURN
+  	  MAXX(TopTown,  ResaleFlatPrice_clean[town])`<br>
 
+### DashBoard Highlights
+#### Interactive Map to get details of Highest Sold Price and nearest Amenities based on Address.
+![Screenshot 2024-07-31 110426](https://github.com/user-attachments/assets/fda8d92c-6e8f-4115-a58c-147f5c648fbe)
+
+
+#### For Buyers/Investors to compare resale prices of two or more addresses over the years, along with amenities details.
+![Screenshot 2024-07-31 110744](https://github.com/user-attachments/assets/9dabe4b3-eed8-4c41-994d-c935f8374ebf)
+
+
+### Conclusion
+
+In this project custom Tooltip in Map shows the latest highest sold price with the remaining lease year, flat type, and flat area. Comparative data in the buyer Dashboard is useful for investors to compare the resale price over the years and also find the nearest amenities. Key influences show insight factors for the resale price increase.
